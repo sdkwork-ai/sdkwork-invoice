@@ -204,6 +204,9 @@ fn problem_detail_response(message: impl Into<String>) -> Response {
             kind: WebFrameworkErrorKind::BadRequest,
             message: message.into(),
             retry_after_seconds: None,
+            auth_profile: None,
+            failed_stage: None,
+            reason: None,
         },
         ProblemCorrelation::from(Some(trace_id.as_str())),
     )

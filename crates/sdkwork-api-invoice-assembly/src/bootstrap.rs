@@ -12,6 +12,11 @@ pub struct ApiAssembly {
     pub router: Router,
 }
 
+pub async fn assemble_api_router_from_env() -> Result<ApiAssembly, String> {
+    let host = Arc::new(InvoiceServiceHost::from_env().await?);
+    Ok(assemble_api_router(host).await)
+}
+
 pub async fn assemble_api_router(host: Arc<InvoiceServiceHost>) -> ApiAssembly {
     let mut router = Router::new();
     router = router.merge(sdkwork_routes_invoice_app_api::gateway_mount(host).await);

@@ -771,6 +771,9 @@ fn api_problem_response(kind: WebFrameworkErrorKind, message: impl Into<String>)
             kind,
             message: message.into(),
             retry_after_seconds: None,
+            auth_profile: None,
+            failed_stage: None,
+            reason: None,
         },
         ProblemCorrelation::from(Some(trace_id.as_str())),
     )
