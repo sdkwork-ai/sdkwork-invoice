@@ -606,7 +606,7 @@ mod tests {
             .await
             .expect("sqlite pool");
         sqlx::raw_sql(include_str!(
-            "../../../database/ddl/baseline/sqlite/0001_invoice_baseline.sql"
+            "../../../tests/fixtures/database/sqlite/ddl/baseline/0001_invoice_baseline.sql"
         ))
         .execute(&pool)
         .await

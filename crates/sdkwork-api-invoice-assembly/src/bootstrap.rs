@@ -6,19 +6,56 @@
 
 use axum::Router;
 use sdkwork_invoice_service_host::InvoiceServiceHost;
+use sdkwork_web_bootstrap::{ApiAssemblyContribution, ReadinessCheck};
+use sdkwork_web_core::{DomainContextInjector, HttpRouteManifest};
 use std::sync::Arc;
 
-pub struct ApiAssembly {
-    pub router: Router,
+pub type ApiAssembly = ApiAssemblyContribution;
+
+pub struct ApiAssemblyContext {
+    pub host: Arc<InvoiceServiceHost>,
+    pub domain_context_injectors: Vec<Arc<dyn DomainContextInjector>>,
+    pub readiness_check: Arc<dyn ReadinessCheck>,
 }
 
-pub async fn assemble_api_router_from_env() -> Result<ApiAssembly, String> {
-    let host = Arc::new(InvoiceServiceHost::from_env().await?);
-    Ok(assemble_api_router(host).await)
-}
-
-pub async fn assemble_api_router(host: Arc<InvoiceServiceHost>) -> ApiAssembly {
+pub async fn assemble_api_router(context: ApiAssemblyContext) -> Result<ApiAssembly, String> {
+    let ApiAssemblyContext {
+        host,
+        domain_context_injectors,
+        readiness_check,
+    } = context;
     let mut router = Router::new();
-    router = router.merge(sdkwork_routes_invoice_app_api::gateway_mount(host).await);
-    ApiAssembly { router }
+    router = router.merge(sdkwork_routes_invoice_app_api::gateway_mount_business(host));
+    let mut routes = Vec::new();
+    routes.extend_from_slice(sdkwork_routes_invoice_app_api::gateway_route_manifest().routes());
+    ApiAssemblyContribution::from_manifest(
+        "sdkwork-invoice",
+        "SDKWork invoice API",
+        router,
+        HttpRouteManifest::from_owned_routes(routes),
+        domain_context_injectors,
+        readiness_check,
+    )
+}
+
+pub async fn assemble_app_api_contribution(
+    context: ApiAssemblyContext,
+) -> Result<ApiAssembly, String> {
+    let ApiAssemblyContext {
+        host,
+        domain_context_injectors,
+        readiness_check,
+    } = context;
+    let mut router = Router::new();
+    router = router.merge(sdkwork_routes_invoice_app_api::gateway_mount_business(host));
+    let mut routes = Vec::new();
+    routes.extend_from_slice(sdkwork_routes_invoice_app_api::gateway_route_manifest().routes());
+    ApiAssemblyContribution::from_manifest(
+        "sdkwork-invoice",
+        "SDKWork invoice App API",
+        router,
+        HttpRouteManifest::from_owned_routes(routes),
+        domain_context_injectors,
+        readiness_check,
+    )
 }

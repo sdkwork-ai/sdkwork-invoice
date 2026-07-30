@@ -1,3 +1,11 @@
 {
-  "prefixes": ["commerce_"]
+  "prefixes": [
+    {
+      "prefix": "commerce_",
+      "domain": "invoice",
+      "owner": "sdkwork-invoice"
+    }
+  ],
+  "schemaVersion": 1,
+  "kind": "sdkwork.database.prefix-registry"
 }

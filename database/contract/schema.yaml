@@ -1,12 +1,12 @@
 schema_version: 1
 kind: sdkwork.database.schema
+database_role: authoritative-server
 module_id: invoice
 contract_version: 1.0.0
 owner_team: sdkwork-invoice
 compliance_level: L2
 engines:
   - postgres
-  - sqlite
 table_prefix: commerce_
 tables:
   - name: commerce_invoice_title

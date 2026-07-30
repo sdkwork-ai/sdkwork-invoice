@@ -1,7 +1,24 @@
 {
   "tables": [
-    "commerce_invoice_title",
-    "commerce_invoice",
-    "commerce_invoice_item"
-  ]
+    {
+      "table_name": "commerce_invoice_title",
+      "owner": "sdkwork-invoice",
+      "compliance_level": "L2",
+      "lifecycle_status": "active"
+    },
+    {
+      "table_name": "commerce_invoice",
+      "owner": "sdkwork-invoice",
+      "compliance_level": "L2",
+      "lifecycle_status": "active"
+    },
+    {
+      "table_name": "commerce_invoice_item",
+      "owner": "sdkwork-invoice",
+      "compliance_level": "L2",
+      "lifecycle_status": "active"
+    }
+  ],
+  "schemaVersion": 1,
+  "kind": "sdkwork.database.table-registry"
 }

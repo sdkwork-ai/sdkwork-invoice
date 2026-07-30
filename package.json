@@ -1,4 +1,4 @@
-﻿{
+{
   "license": "AGPL-3.0-or-later",
   "name": "@sdkwork/invoice-workspace",
   "private": true,
@@ -15,7 +15,7 @@
     "api:assembly:validate": "node ../sdkwork-specs/tools/validate-api-assembly.mjs --root .",
     "check": "pnpm run check:app-composition && pnpm api:check && pnpm sdk:check && pnpm db:validate && pnpm api:assembly:validate",
     "db:validate": "node ../sdkwork-specs/tools/check-database-framework-standard.mjs --root .",
-    "db:materialize:contract": "node ../sdkwork-specs/tools/materialize-database-contract-from-baseline.mjs --root . --baseline database/ddl/baseline/postgres/0001_invoice_baseline.sql --module-id invoice --owner sdkwork-invoice --prefixes commerce_ --engines postgres,sqlite",
+    "db:materialize:contract": "node ../sdkwork-specs/tools/materialize-database-contract-from-baseline.mjs --root . --baseline database/ddl/baseline/postgres/0001_invoice_baseline.sql --module-id invoice --owner sdkwork-invoice --prefixes commerce_ --engines postgres",
     "db:plan": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . plan",
     "db:init": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . init",
     "db:migrate": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . migrate",

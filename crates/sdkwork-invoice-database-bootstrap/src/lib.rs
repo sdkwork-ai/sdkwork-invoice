@@ -10,7 +10,7 @@ pub fn invoice_foundation_migration_sql() -> &'static str {
 
 /// SQLite mirror of the invoice module baseline for host installers and drift checks.
 pub fn invoice_foundation_migration_sqlite() -> &'static str {
-    include_str!("../../../database/ddl/baseline/sqlite/0001_invoice_baseline.sql")
+    include_str!("../../../tests/fixtures/database/sqlite/ddl/baseline/0001_invoice_baseline.sql")
 }
 
 /// Tables that must exist after the invoice module baseline is applied.

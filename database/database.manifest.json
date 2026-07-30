@@ -1,18 +1,20 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "kind": "sdkwork.database.module",
   "moduleId": "invoice",
   "serviceCode": "INVOICE",
   "displayName": "Invoice Database",
   "owner": "sdkwork-invoice",
-  "engines": ["postgres", "sqlite"],
+  "engines": [
+    "postgres"
+  ],
   "defaultEngine": "postgres",
   "tablePrefix": "commerce_",
   "contractVersion": "1.0.0",
   "baselineStrategy": "baseline-plus-migrations",
   "modules": [],
   "lifecycle": {
-    "autoMigrate": true,
+    "autoMigrate": false,
     "seedOnBoot": false,
     "defaultSeedLocale": "zh-CN",
     "defaultSeedProfile": "standard",
@@ -25,7 +27,9 @@
       "ru-RU",
       "ko-KR"
     ],
-    "activeSeedLocales": ["zh-CN"],
+    "activeSeedLocales": [
+      "zh-CN"
+    ],
     "driftCheckIntervalSec": 60
   },
   "paths": {
@@ -37,5 +41,6 @@
   "spi": {
     "provider": "default",
     "hooks": []
-  }
+  },
+  "databaseRole": "authoritative-server"
 }
