@@ -1,13 +1,10 @@
-use sdkwork_api_invoice_assembly::assemble_api_router;
-use sdkwork_invoice_service_host::InvoiceServiceHost;
+use sdkwork_api_invoice_assembly::assemble_api_router_from_env;
 use sdkwork_web_bootstrap::{service_router, ServiceRouterConfig};
-use std::sync::Arc;
 
 #[tokio::main]
 async fn main() {
     tracing_subscriber::fmt::init();
-    let host = Arc::new(InvoiceServiceHost::new().await);
-    let business = assemble_api_router(host).await.router.layer(
+    let business = match assemble_api_router_from_env().await { Ok(api) => api.router, Err(error) => { tracing::error!(%error, "invoice assembly failed"); std::process::exit(1); } }.layer(
         sdkwork_web_bootstrap::application_cors_layer_from_env(
             &["SDKWORK_INVOICE_ENVIRONMENT"],
             &[
