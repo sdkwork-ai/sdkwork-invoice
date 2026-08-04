@@ -1,6 +1,6 @@
 //! Invoice database bootstrap authority for the `sdkwork-invoice` product.
 //!
-//! Host installers (including sdkwork-clawrouter standalone mode) must consume this
+//! Host installers (including sdkwork-cloudrouter standalone mode) must consume this
 //! crate instead of embedding invoice DDL paths in local compatibility shims.
 
 /// Canonical Postgres baseline for invoice tables owned by `sdkwork-invoice`.
