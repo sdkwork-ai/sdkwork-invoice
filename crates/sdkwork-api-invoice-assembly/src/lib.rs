@@ -9,7 +9,7 @@ mod generated;
 pub use bootstrap::{
     assemble_api_router, assemble_app_api_contribution, ApiAssembly, ApiAssemblyContext,
 };
-pub use environment::{assemble_api_router_from_env, assemble_app_api_contribution_from_env};
+pub use environment::{assemble_api_router_with_pool, assemble_api_router_from_env, assemble_app_api_contribution_from_env};
 
 pub fn assembly_route_count() -> usize {
     generated::ROUTE_CRATE_COUNT

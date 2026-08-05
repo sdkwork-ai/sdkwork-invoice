@@ -27,6 +27,14 @@ pub async fn bootstrap_invoice_database_from_env() -> Result<InvoiceDatabaseHost
     let pool = create_pool_from_config(config)
         .await
         .map_err(|error| format!("create invoice database pool failed: {error}"))?;
+    bootstrap_invoice_database_with_pool(pool).await
+}
+
+/// Bootstrap invoice assets against a caller-provided database pool so the
+/// platform cloud gateway can share its process-wide PostgreSQL pool.
+pub async fn bootstrap_invoice_database_with_pool(
+    pool: DatabasePool,
+) -> Result<InvoiceDatabaseHost, String> {
     let app_root = std::env::var("SDKWORK_INVOICE_APP_ROOT")
         .map(PathBuf::from)
         .unwrap_or_else(|_| PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../.."));
