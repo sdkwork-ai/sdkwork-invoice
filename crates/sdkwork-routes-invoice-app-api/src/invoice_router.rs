@@ -9,7 +9,8 @@ use axum::routing::{get, post};
 use axum::{Json, Router};
 use sdkwork_contract_service::CommerceServiceError;
 use sdkwork_iam_context_service::IamAppContext;
-use sdkwork_invoice_repository_sqlx::{PostgresCommerceInvoiceStore, SqliteCommerceInvoiceStore};
+use sdkwork_invoice_repository_sqlx::PostgresCommerceInvoiceStore;
+use sqlx::PgPool;
 use sdkwork_invoice_service::{
     CancelOwnerInvoiceCommand, CreateOwnerInvoiceCommand, InvoiceDetailQuery, InvoiceItemListPage,
     InvoiceItemListQuery, InvoiceItemRecord, InvoiceListPage, InvoiceListQuery, InvoiceRecord,
@@ -23,7 +24,6 @@ use sdkwork_web_core::{
     problem_response, ProblemCorrelation, WebFrameworkError, WebFrameworkErrorKind,
 };
 use serde::{Deserialize, Serialize};
-use sqlx::{PgPool, SqlitePool};
 
 use crate::command_headers::{validate_app_write_payload, write_payload_with_route_param};
 use crate::subject::{app_runtime_subject_from_extension, AppRuntimeSubject};
@@ -168,63 +168,6 @@ struct InvoiceItemResponse {
     created_at: String,
 }
 
-impl CommerceInvoiceStore for SqliteCommerceInvoiceStore {
-    fn list_invoices<'a>(
-        &'a self,
-        query: InvoiceListQuery,
-    ) -> CommerceInvoiceFuture<'a, InvoiceListPage> {
-        Box::pin(async move { self.list_invoices(query).await })
-    }
-
-    fn retrieve_invoice<'a>(
-        &'a self,
-        query: InvoiceDetailQuery,
-    ) -> CommerceInvoiceFuture<'a, Option<InvoiceRecord>> {
-        Box::pin(async move { self.retrieve_invoice(query).await })
-    }
-
-    fn invoice_statistics<'a>(
-        &'a self,
-        query: InvoiceListQuery,
-    ) -> CommerceInvoiceFuture<'a, InvoiceStatistics> {
-        Box::pin(async move { self.invoice_statistics(query).await })
-    }
-
-    fn list_invoice_items<'a>(
-        &'a self,
-        query: InvoiceItemListQuery,
-    ) -> CommerceInvoiceFuture<'a, InvoiceItemListPage> {
-        Box::pin(async move { self.list_invoice_items(query).await })
-    }
-
-    fn create_owner_invoice<'a>(
-        &'a self,
-        command: CreateOwnerInvoiceCommand,
-    ) -> CommerceInvoiceFuture<'a, InvoiceRecord> {
-        Box::pin(async move { self.create_owner_invoice(command).await })
-    }
-
-    fn submit_owner_invoice<'a>(
-        &'a self,
-        command: SubmitOwnerInvoiceCommand,
-    ) -> CommerceInvoiceFuture<'a, InvoiceRecord> {
-        Box::pin(async move { self.submit_owner_invoice(command).await })
-    }
-
-    fn cancel_owner_invoice<'a>(
-        &'a self,
-        command: CancelOwnerInvoiceCommand,
-    ) -> CommerceInvoiceFuture<'a, ()> {
-        Box::pin(async move { self.cancel_owner_invoice(command).await })
-    }
-
-    fn update_owner_invoice<'a>(
-        &'a self,
-        command: UpdateOwnerInvoiceCommand,
-    ) -> CommerceInvoiceFuture<'a, InvoiceRecord> {
-        Box::pin(async move { self.update_owner_invoice(command).await })
-    }
-}
 
 impl CommerceInvoiceStore for PostgresCommerceInvoiceStore {
     fn list_invoices<'a>(
@@ -282,10 +225,6 @@ impl CommerceInvoiceStore for PostgresCommerceInvoiceStore {
     ) -> CommerceInvoiceFuture<'a, InvoiceRecord> {
         Box::pin(async move { self.update_owner_invoice(command).await })
     }
-}
-
-pub fn app_invoice_router_with_sqlite_pool(pool: SqlitePool) -> Router {
-    build_app_invoice_router(Arc::new(SqliteCommerceInvoiceStore::new(pool)))
 }
 
 pub fn app_invoice_router_with_postgres_pool(pool: PgPool) -> Router {
