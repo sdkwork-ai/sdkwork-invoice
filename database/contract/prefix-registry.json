@@ -3,7 +3,7 @@
     {
       "prefix": "commerce_",
       "domain": "invoice",
-      "owner": "sdkwork-invoice"
+      "owner": "sdkwork-commerce-platform"
     }
   ],
   "schemaVersion": 1,
