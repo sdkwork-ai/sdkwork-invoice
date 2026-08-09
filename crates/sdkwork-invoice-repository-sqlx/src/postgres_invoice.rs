@@ -49,7 +49,7 @@ impl PostgresCommerceInvoiceStore {
                    created_at, issued_at, updated_at
             FROM commerce_invoice
             WHERE tenant_id = CAST($1 AS TEXT)
-              AND ((organization_id = CAST($2 AS TEXT)) OR (organization_id IS NULL AND $2 IS NULL))
+              AND ((organization_id = CAST($2 AS TEXT)) OR (organization_id IS NULL AND $2 IS NULL) OR (organization_id = '0' AND $2 IS NULL))
               AND owner_user_id = CAST($3 AS TEXT)
               AND ($4 IS NULL OR status = $4)
             ORDER BY COALESCE(issued_at, created_at) DESC NULLS LAST, id DESC
@@ -88,7 +88,7 @@ impl PostgresCommerceInvoiceStore {
                    created_at, issued_at, updated_at
             FROM commerce_invoice
             WHERE tenant_id = CAST($1 AS TEXT)
-              AND ((organization_id = CAST($2 AS TEXT)) OR (organization_id IS NULL AND $2 IS NULL))
+              AND ((organization_id = CAST($2 AS TEXT)) OR (organization_id IS NULL AND $2 IS NULL) OR (organization_id = '0' AND $2 IS NULL))
               AND owner_user_id = CAST($3 AS TEXT)
               AND id = CAST($4 AS TEXT)
             "#,
@@ -127,7 +127,7 @@ impl PostgresCommerceInvoiceStore {
                    COALESCE(SUM(CASE WHEN LOWER(status) NOT IN ('issued', 'completed', 'cancelled', 'canceled') THEN 1 ELSE 0 END), 0)::BIGINT AS pending
             FROM commerce_invoice
             WHERE tenant_id = CAST($1 AS TEXT)
-              AND ((organization_id = CAST($2 AS TEXT)) OR (organization_id IS NULL AND $2 IS NULL))
+              AND ((organization_id = CAST($2 AS TEXT)) OR (organization_id IS NULL AND $2 IS NULL) OR (organization_id = '0' AND $2 IS NULL))
               AND owner_user_id = CAST($3 AS TEXT)
             "#,
         )
@@ -156,7 +156,7 @@ impl PostgresCommerceInvoiceStore {
             JOIN commerce_invoice invoice
               ON invoice.id = item.invoice_id AND invoice.tenant_id = item.tenant_id
             WHERE invoice.tenant_id = CAST($1 AS TEXT)
-              AND ((invoice.organization_id = CAST($2 AS TEXT)) OR (invoice.organization_id IS NULL AND $2 IS NULL))
+              AND ((invoice.organization_id = CAST($2 AS TEXT)) OR (invoice.organization_id IS NULL AND $2 IS NULL) OR (invoice.organization_id = '0' AND $2 IS NULL))
               AND invoice.owner_user_id = CAST($3 AS TEXT)
               AND invoice.id = CAST($4 AS TEXT)
             "#,
@@ -176,7 +176,7 @@ impl PostgresCommerceInvoiceStore {
             JOIN commerce_invoice invoice
               ON invoice.id = item.invoice_id AND invoice.tenant_id = item.tenant_id
             WHERE invoice.tenant_id = CAST($1 AS TEXT)
-              AND ((invoice.organization_id = CAST($2 AS TEXT)) OR (invoice.organization_id IS NULL AND $2 IS NULL))
+              AND ((invoice.organization_id = CAST($2 AS TEXT)) OR (invoice.organization_id IS NULL AND $2 IS NULL) OR (invoice.organization_id = '0' AND $2 IS NULL))
               AND invoice.owner_user_id = CAST($3 AS TEXT)
               AND invoice.id = CAST($4 AS TEXT)
             ORDER BY item.created_at ASC, item.id ASC
@@ -298,7 +298,7 @@ impl PostgresCommerceInvoiceStore {
             UPDATE commerce_invoice
             SET status = 'submitted', updated_at = $1
             WHERE tenant_id = CAST($2 AS TEXT)
-              AND ((organization_id = CAST($3 AS TEXT)) OR (organization_id IS NULL AND $4 IS NULL))
+              AND ((organization_id = CAST($3 AS TEXT)) OR (organization_id IS NULL AND $4 IS NULL) OR (organization_id = '0' AND $4 IS NULL))
               AND owner_user_id = CAST($5 AS TEXT)
               AND id = CAST($6 AS TEXT)
               AND LOWER(COALESCE(status, '')) IN ('draft', 'failed')
@@ -341,7 +341,7 @@ impl PostgresCommerceInvoiceStore {
             UPDATE commerce_invoice
             SET status = 'cancelled', updated_at = $1
             WHERE tenant_id = CAST($2 AS TEXT)
-              AND ((organization_id = CAST($3 AS TEXT)) OR (organization_id IS NULL AND $4 IS NULL))
+              AND ((organization_id = CAST($3 AS TEXT)) OR (organization_id IS NULL AND $4 IS NULL) OR (organization_id = '0' AND $4 IS NULL))
               AND owner_user_id = CAST($5 AS TEXT)
               AND id = CAST($6 AS TEXT)
               AND LOWER(COALESCE(status, '')) IN ('issued', 'completed')
@@ -451,7 +451,7 @@ async fn count_invoices(
         SELECT COUNT(1)
         FROM commerce_invoice
         WHERE tenant_id = CAST($1 AS TEXT)
-          AND ((organization_id = CAST($2 AS TEXT)) OR (organization_id IS NULL AND $2 IS NULL))
+          AND ((organization_id = CAST($2 AS TEXT)) OR (organization_id IS NULL AND $2 IS NULL) OR (organization_id = '0' AND $2 IS NULL))
           AND owner_user_id = CAST($3 AS TEXT)
           AND ($4 IS NULL OR status = $4)
         "#,

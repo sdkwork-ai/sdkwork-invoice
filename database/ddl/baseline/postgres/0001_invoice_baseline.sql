@@ -28,7 +28,7 @@ CREATE INDEX IF NOT EXISTS idx_commerce_invoice_title_owner
 CREATE TABLE IF NOT EXISTS commerce_invoice (
     id TEXT PRIMARY KEY NOT NULL,
     tenant_id TEXT NOT NULL,
-    organization_id TEXT,
+    organization_id TEXT NOT NULL DEFAULT '0',
     owner_user_id TEXT NOT NULL,
     order_id TEXT NOT NULL,
     payment_id TEXT NOT NULL,
