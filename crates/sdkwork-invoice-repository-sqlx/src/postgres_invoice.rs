@@ -204,6 +204,15 @@ impl PostgresCommerceInvoiceStore {
         command: CreateOwnerInvoiceCommand,
     ) -> Result<InvoiceRecord, CommerceServiceError> {
         let now = invoice_command_timestamp();
+        // Platform invoices persist the sentinel organization scope (`"0"`) so
+        // that personal-login (no-org) sessions never write NULL into the
+        // NOT NULL `organization_id` column (DATABASE_SPEC DB090).
+        let organization_id = command
+            .organization_id
+            .as_deref()
+            .map(str::trim)
+            .filter(|value| !value.is_empty())
+            .unwrap_or("0");
         let invoice_id = format!("invoice-{now}");
         let title_id = format!("title-{now}");
         let item_id = format!("invoice-item-{now}");
@@ -245,7 +254,7 @@ impl PostgresCommerceInvoiceStore {
         )
         .bind(&invoice_id)
         .bind(&command.tenant_id)
-        .bind(command.organization_id.as_deref())
+        .bind(organization_id)
         .bind(&command.owner_user_id)
         .bind(&order_id)
         .bind(&payment_id)

@@ -18,6 +18,7 @@
 
 BEGIN;
 
+ALTER TABLE commerce_invoice ADD COLUMN IF NOT EXISTS organization_id TEXT NOT NULL DEFAULT '0';
 UPDATE commerce_invoice SET organization_id = '0' WHERE organization_id IS NULL;
 ALTER TABLE commerce_invoice ALTER COLUMN organization_id SET DEFAULT '0';
 ALTER TABLE commerce_invoice ALTER COLUMN organization_id SET NOT NULL;
