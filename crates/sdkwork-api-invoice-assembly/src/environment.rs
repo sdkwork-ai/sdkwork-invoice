@@ -47,3 +47,11 @@ pub async fn assemble_api_router_from_env() -> Result<ApiAssembly, String> {
 pub async fn assemble_app_api_contribution_from_env() -> Result<ApiAssembly, String> {
     assemble_app_api_contribution(context_from_env().await?).await
 }
+
+/// Same-origin dependency composition: build the invoice App API contribution
+/// on a shared pool owned by the consuming host.
+pub async fn assemble_app_api_contribution_with_pool(
+    pool: DatabasePool,
+) -> Result<ApiAssembly, String> {
+    assemble_app_api_contribution(context_from_pool(pool).await?).await
+}
