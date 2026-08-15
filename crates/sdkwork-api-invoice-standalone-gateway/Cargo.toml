@@ -17,5 +17,3 @@ tower-http = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
 sdkwork-web-bootstrap.workspace = true
-sdkwork-routes-invoice-app-api.workspace = true
-sdkwork-invoice-service-host.workspace = true
