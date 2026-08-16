@@ -9,6 +9,11 @@ use crate::bootstrap::{
     assemble_api_router, assemble_app_api_contribution, ApiAssembly, ApiAssemblyContext,
 };
 
+pub struct ApiAssemblyRuntime {
+    pub contribution: ApiAssembly,
+    pub database_pool: DatabasePool,
+}
+
 async fn context_from_env() -> Result<ApiAssemblyContext, String> {
     let host = Arc::new(InvoiceServiceHost::from_env().await?);
     let readiness_check = Arc::new(DatabasePoolReadinessCheck::new(
@@ -20,7 +25,6 @@ async fn context_from_env() -> Result<ApiAssemblyContext, String> {
         readiness_check,
     })
 }
-
 
 async fn context_from_pool(pool: DatabasePool) -> Result<ApiAssemblyContext, String> {
     let host = Arc::new(InvoiceServiceHost::from_pool(pool).await?);
@@ -42,6 +46,16 @@ pub async fn assemble_api_router_with_pool(pool: DatabasePool) -> Result<ApiAsse
 
 pub async fn assemble_api_router_from_env() -> Result<ApiAssembly, String> {
     assemble_api_router(context_from_env().await?).await
+}
+
+pub async fn assemble_api_router_runtime() -> Result<ApiAssemblyRuntime, String> {
+    let context = context_from_env().await?;
+    let database_pool = context.host.database_pool().clone();
+    let contribution = assemble_api_router(context).await?;
+    Ok(ApiAssemblyRuntime {
+        contribution,
+        database_pool,
+    })
 }
 
 pub async fn assemble_app_api_contribution_from_env() -> Result<ApiAssembly, String> {

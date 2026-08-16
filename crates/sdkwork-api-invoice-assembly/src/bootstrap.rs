@@ -29,7 +29,9 @@ pub async fn assemble_api_router(context: ApiAssemblyContext) -> Result<ApiAssem
     // installs framework/security once on the combined router
     // (API_ASSEMBLY_SPEC §4/§6.1). The standalone invoice gateway uses the
     // framework-wrapped `gateway_mount_business` profile directly.
-    router = router.merge(sdkwork_routes_invoice_app_api::build_invoice_app_router(host));
+    router = router.merge(sdkwork_routes_invoice_app_api::build_invoice_app_router(
+        host,
+    ));
     let mut routes = Vec::new();
     routes.extend_from_slice(sdkwork_routes_invoice_app_api::gateway_route_manifest().routes());
     ApiAssemblyContribution::from_manifest(
@@ -55,7 +57,9 @@ pub async fn assemble_app_api_contribution(
     // installs framework/security once on the combined router
     // (API_ASSEMBLY_SPEC §4/§6.1). The standalone invoice gateway uses the
     // framework-wrapped `gateway_mount_business` profile directly.
-    router = router.merge(sdkwork_routes_invoice_app_api::build_invoice_app_router(host));
+    router = router.merge(sdkwork_routes_invoice_app_api::build_invoice_app_router(
+        host,
+    ));
     let mut routes = Vec::new();
     routes.extend_from_slice(sdkwork_routes_invoice_app_api::gateway_route_manifest().routes());
     ApiAssemblyContribution::from_manifest(

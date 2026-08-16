@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "sdkwork-api-invoice-standalone-gateway",
+    "displayName": "SDKWork Invoice Standalone API Gateway",
+    "version": "0.1.0",
+    "type": "rust-api-standalone-gateway",
+    "root": "crates/sdkwork-api-invoice-standalone-gateway",
+    "domain": "commerce",
+    "capability": "api-gateway",
+    "surface": "gateway-api",
+    "languages": ["rust"],
+    "generated": false,
+    "manifests": ["Cargo.toml"]
+  },
+  "canonicalSpecs": [
+    { "file": "API_ASSEMBLY_SPEC.md", "path": "../../../sdkwork-specs/API_ASSEMBLY_SPEC.md" },
+    { "file": "APPLICATION_GATEWAY_SPEC.md", "path": "../../../sdkwork-specs/APPLICATION_GATEWAY_SPEC.md" },
+    { "file": "WEB_FRAMEWORK_SPEC.md", "path": "../../../sdkwork-specs/WEB_FRAMEWORK_SPEC.md" },
+    { "file": "TEST_SPEC.md", "path": "../../../sdkwork-specs/TEST_SPEC.md" }
+  ],
+  "contracts": {
+    "publicExports": [],
+    "requiredPorts": [
+      {
+        "name": "applicationApiAssembly",
+        "export": "sdkwork_api_invoice_assembly::assemble_api_router_runtime",
+        "provider": "sdkwork-api-invoice-assembly"
+      }
+    ],
+    "runtimeEntrypoints": ["src/main.rs"],
+    "sdkClients": [],
+    "sdkDependencies": [],
+    "events": [],
+    "configKeys": ["SDKWORK_ENVIRONMENT", "SDKWORK_INVOICE_ENVIRONMENT", "INVOICE_API_BIND"],
+    "layerRole": "runtime-gateway"
+  },
+  "verification": {
+    "commands": ["cargo check -p sdkwork-api-invoice-standalone-gateway"]
+  }
+}
