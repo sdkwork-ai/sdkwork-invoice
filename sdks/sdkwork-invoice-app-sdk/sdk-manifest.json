@@ -22,11 +22,19 @@
     "sdkTarget": "app",
     "apiPrefix": "/app/v3/api",
     "schemaUrl": "/app/v3/api/openapi.json",
-    "generatedProtocols": ["http-openapi"],
+    "generatedProtocols": [
+      "http-openapi"
+    ],
     "manualTransports": []
   },
   "sdkDependencies": [],
-  "metadata": { "managedBy": "sdkwork-invoice", "standardProfile": "sdkwork-v3", "supportedLanguageSubset": ["typescript"] },
+  "metadata": {
+    "managedBy": "sdkwork-invoice",
+    "standardProfile": "sdkwork-v3",
+    "supportedLanguageSubset": [
+      "typescript"
+    ]
+  },
   "languages": [
     {
       "language": "typescript",
