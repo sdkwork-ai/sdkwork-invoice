@@ -10,7 +10,6 @@ use axum::{Json, Router};
 use sdkwork_contract_service::CommerceServiceError;
 use sdkwork_iam_context_service::IamAppContext;
 use sdkwork_invoice_repository_sqlx::PostgresCommerceInvoiceStore;
-use sqlx::PgPool;
 use sdkwork_invoice_service::{
     CancelOwnerInvoiceCommand, CreateOwnerInvoiceCommand, InvoiceDetailQuery, InvoiceItemListPage,
     InvoiceItemListQuery, InvoiceItemRecord, InvoiceListPage, InvoiceListQuery, InvoiceRecord,
@@ -24,6 +23,7 @@ use sdkwork_web_core::{
     problem_response, ProblemCorrelation, WebFrameworkError, WebFrameworkErrorKind,
 };
 use serde::{Deserialize, Serialize};
+use sqlx::PgPool;
 
 use crate::command_headers::{validate_app_write_payload, write_payload_with_route_param};
 use crate::subject::{app_runtime_subject_from_extension, AppRuntimeSubject};
@@ -167,7 +167,6 @@ struct InvoiceItemResponse {
     tax_amount: String,
     created_at: String,
 }
-
 
 impl CommerceInvoiceStore for PostgresCommerceInvoiceStore {
     fn list_invoices<'a>(
