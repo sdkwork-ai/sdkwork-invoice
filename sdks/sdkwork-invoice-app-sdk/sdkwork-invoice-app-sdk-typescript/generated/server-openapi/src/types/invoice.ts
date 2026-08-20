@@ -8,7 +8,7 @@ export interface Invoice {
   status: string;
   invoiceNo?: string | null;
   invoiceCode?: string | null;
-  documentUrl?: string;
+  documentUrl?: string | null;
   createdAt: string;
   issuedAt?: string | null;
   updatedAt: string;

@@ -3,6 +3,6 @@ import type { PageInfo } from './page-info';
 
 export interface InvoiceItemPageResponse {
   code: 0;
-  data: Record<string, unknown>;
+  data: { items: InvoiceItem[]; pageInfo: PageInfo; };
   traceId: string;
 }

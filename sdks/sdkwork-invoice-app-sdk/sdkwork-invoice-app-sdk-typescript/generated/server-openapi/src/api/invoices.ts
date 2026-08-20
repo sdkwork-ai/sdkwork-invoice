@@ -1,5 +1,5 @@
 import { appApiPath } from './paths';
-import type { HttpClient } from '../http/client';
+import type { ApiRequestOptions, HttpClient } from '../http/client';
 
 import type { CancelInvoiceRequest, CreateInvoiceRequest, Invoice, InvoiceCommand, InvoiceItem, InvoiceMutation, InvoiceStatistics, PageInfo, UpdateInvoiceRequest } from '../types';
 
@@ -19,7 +19,7 @@ export class InvoicesCancellationsApi {
 
 
 /** Cancel an invoice. */
-  async create(invoiceId: string, params: InvoicesCancellationsCreateParams, body?: CancelInvoiceRequest): Promise<InvoiceCommand> {
+  async create(invoiceId: string, params: InvoicesCancellationsCreateParams, body?: CancelInvoiceRequest, requestOptions?: ApiRequestOptions): Promise<InvoiceCommand> {
     const requestHeaders = buildRequestHeaders(
       {
         'Idempotency-Key': { value: params.idempotencyKey, style: 'simple', explode: false },
@@ -28,7 +28,7 @@ export class InvoicesCancellationsApi {
       },
       {}
     );
-    return this.client.post<InvoiceCommand>(appApiPath(`/invoices/${serializePathParameter(invoiceId, { name: 'invoiceId', style: 'simple', explode: false })}/cancellations`), body, undefined, requestHeaders, 'application/json');
+    return this.client.request<InvoiceCommand>(appApiPath(`/invoices/${serializePathParameter(invoiceId, { name: 'invoiceId', style: 'simple', explode: false })}/cancellations`), { ...(requestOptions?.signal !== undefined ? { signal: requestOptions.signal } : {}), ...(requestOptions?.timeout !== undefined ? { timeout: requestOptions.timeout } : {}), method: 'POST' as any, ...(body !== undefined ? { body, contentType: 'application/json' } : {}), ...(requestHeaders !== undefined ? { headers: requestHeaders } : {}), sdkworkUnwrapKind: 'item' });
   }
 }
 
@@ -47,7 +47,7 @@ export class InvoicesSubmissionsApi {
 
 
 /** Submit an invoice draft. */
-  async create(invoiceId: string, params: InvoicesSubmissionsCreateParams): Promise<InvoiceMutation> {
+  async create(invoiceId: string, params: InvoicesSubmissionsCreateParams, requestOptions?: ApiRequestOptions): Promise<InvoiceMutation> {
     const requestHeaders = buildRequestHeaders(
       {
         'Idempotency-Key': { value: params.idempotencyKey, style: 'simple', explode: false },
@@ -56,7 +56,7 @@ export class InvoicesSubmissionsApi {
       },
       {}
     );
-    return this.client.post<InvoiceMutation>(appApiPath(`/invoices/${serializePathParameter(invoiceId, { name: 'invoiceId', style: 'simple', explode: false })}/submissions`), undefined, undefined, requestHeaders);
+    return this.client.request<InvoiceMutation>(appApiPath(`/invoices/${serializePathParameter(invoiceId, { name: 'invoiceId', style: 'simple', explode: false })}/submissions`), { ...(requestOptions?.signal !== undefined ? { signal: requestOptions.signal } : {}), ...(requestOptions?.timeout !== undefined ? { timeout: requestOptions.timeout } : {}), method: 'POST' as any, ...(requestHeaders !== undefined ? { headers: requestHeaders } : {}), sdkworkUnwrapKind: 'item' });
   }
 }
 
@@ -74,12 +74,12 @@ export class InvoicesItemsApi {
 
 
 /** List items for an invoice owned by the current user. */
-  async list(invoiceId: string, params?: InvoicesItemsListParams): Promise<Record<string, unknown>> {
+  async list(invoiceId: string, params?: InvoicesItemsListParams, requestOptions?: ApiRequestOptions): Promise<{ items: InvoiceItem[]; pageInfo: PageInfo; }> {
     const query = buildQueryString([
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<Record<string, unknown>>(appendQueryString(appApiPath(`/invoices/${serializePathParameter(invoiceId, { name: 'invoiceId', style: 'simple', explode: false })}/items`), query));
+    return this.client.request<{ items: InvoiceItem[]; pageInfo: PageInfo; }>(appendQueryString(appApiPath(`/invoices/${serializePathParameter(invoiceId, { name: 'invoiceId', style: 'simple', explode: false })}/items`), query), { ...(requestOptions?.signal !== undefined ? { signal: requestOptions.signal } : {}), ...(requestOptions?.timeout !== undefined ? { timeout: requestOptions.timeout } : {}), method: 'GET' as any, sdkworkUnwrapKind: 'page' });
   }
 }
 
@@ -92,8 +92,8 @@ export class InvoicesStatisticsApi {
 
 
 /** Retrieve aggregate invoice statistics for the current user. */
-  async retrieve(): Promise<InvoiceStatistics> {
-    return this.client.get<InvoiceStatistics>(appApiPath(`/invoices/statistics`));
+  async retrieve(requestOptions?: ApiRequestOptions): Promise<InvoiceStatistics> {
+    return this.client.request<InvoiceStatistics>(appApiPath(`/invoices/statistics`), { ...(requestOptions?.signal !== undefined ? { signal: requestOptions.signal } : {}), ...(requestOptions?.timeout !== undefined ? { timeout: requestOptions.timeout } : {}), method: 'GET' as any, sdkworkUnwrapKind: 'item' });
   }
 }
 
@@ -112,13 +112,13 @@ export class InvoicesMineApi {
 
 
 /** List invoices owned by the current user. */
-  async list(params?: InvoicesMineListParams): Promise<Record<string, unknown>> {
+  async list(params?: InvoicesMineListParams, requestOptions?: ApiRequestOptions): Promise<{ items: Invoice[]; pageInfo: PageInfo; }> {
     const query = buildQueryString([
       { name: 'status', value: params?.status, style: 'form', explode: true, allowReserved: false },
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<Record<string, unknown>>(appendQueryString(appApiPath(`/invoices/mine`), query));
+    return this.client.request<{ items: Invoice[]; pageInfo: PageInfo; }>(appendQueryString(appApiPath(`/invoices/mine`), query), { ...(requestOptions?.signal !== undefined ? { signal: requestOptions.signal } : {}), ...(requestOptions?.timeout !== undefined ? { timeout: requestOptions.timeout } : {}), method: 'GET' as any, sdkworkUnwrapKind: 'page' });
   }
 }
 
@@ -159,17 +159,17 @@ export class InvoicesApi {
 
 
 /** List invoices owned by the current user. */
-  async list(params?: InvoicesListParams): Promise<Record<string, unknown>> {
+  async list(params?: InvoicesListParams, requestOptions?: ApiRequestOptions): Promise<{ items: Invoice[]; pageInfo: PageInfo; }> {
     const query = buildQueryString([
       { name: 'status', value: params?.status, style: 'form', explode: true, allowReserved: false },
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<Record<string, unknown>>(appendQueryString(appApiPath(`/invoices`), query));
+    return this.client.request<{ items: Invoice[]; pageInfo: PageInfo; }>(appendQueryString(appApiPath(`/invoices`), query), { ...(requestOptions?.signal !== undefined ? { signal: requestOptions.signal } : {}), ...(requestOptions?.timeout !== undefined ? { timeout: requestOptions.timeout } : {}), method: 'GET' as any, sdkworkUnwrapKind: 'page' });
   }
 
 /** Create an invoice draft. */
-  async create(body: CreateInvoiceRequest, params: InvoicesCreateParams): Promise<InvoiceMutation> {
+  async create(body: CreateInvoiceRequest, params: InvoicesCreateParams, requestOptions?: ApiRequestOptions): Promise<InvoiceMutation> {
     const requestHeaders = buildRequestHeaders(
       {
         'Idempotency-Key': { value: params.idempotencyKey, style: 'simple', explode: false },
@@ -178,16 +178,16 @@ export class InvoicesApi {
       },
       {}
     );
-    return this.client.post<InvoiceMutation>(appApiPath(`/invoices`), body, undefined, requestHeaders, 'application/json');
+    return this.client.request<InvoiceMutation>(appApiPath(`/invoices`), { ...(requestOptions?.signal !== undefined ? { signal: requestOptions.signal } : {}), ...(requestOptions?.timeout !== undefined ? { timeout: requestOptions.timeout } : {}), method: 'POST' as any, body, contentType: 'application/json', ...(requestHeaders !== undefined ? { headers: requestHeaders } : {}), sdkworkUnwrapKind: 'item' });
   }
 
 /** Retrieve an invoice owned by the current user. */
-  async retrieve(invoiceId: string): Promise<Invoice> {
-    return this.client.get<Invoice>(appApiPath(`/invoices/${serializePathParameter(invoiceId, { name: 'invoiceId', style: 'simple', explode: false })}`));
+  async retrieve(invoiceId: string, requestOptions?: ApiRequestOptions): Promise<Invoice> {
+    return this.client.request<Invoice>(appApiPath(`/invoices/${serializePathParameter(invoiceId, { name: 'invoiceId', style: 'simple', explode: false })}`), { ...(requestOptions?.signal !== undefined ? { signal: requestOptions.signal } : {}), ...(requestOptions?.timeout !== undefined ? { timeout: requestOptions.timeout } : {}), method: 'GET' as any, sdkworkUnwrapKind: 'item' });
   }
 
 /** Update an invoice draft. */
-  async update(invoiceId: string, body: UpdateInvoiceRequest, params: InvoicesUpdateParams): Promise<InvoiceMutation> {
+  async update(invoiceId: string, body: UpdateInvoiceRequest, params: InvoicesUpdateParams, requestOptions?: ApiRequestOptions): Promise<InvoiceMutation> {
     const requestHeaders = buildRequestHeaders(
       {
         'Idempotency-Key': { value: params.idempotencyKey, style: 'simple', explode: false },
@@ -196,7 +196,7 @@ export class InvoicesApi {
       },
       {}
     );
-    return this.client.patch<InvoiceMutation>(appApiPath(`/invoices/${serializePathParameter(invoiceId, { name: 'invoiceId', style: 'simple', explode: false })}`), body, undefined, requestHeaders, 'application/json');
+    return this.client.request<InvoiceMutation>(appApiPath(`/invoices/${serializePathParameter(invoiceId, { name: 'invoiceId', style: 'simple', explode: false })}`), { ...(requestOptions?.signal !== undefined ? { signal: requestOptions.signal } : {}), ...(requestOptions?.timeout !== undefined ? { timeout: requestOptions.timeout } : {}), method: 'PATCH' as any, body, contentType: 'application/json', ...(requestHeaders !== undefined ? { headers: requestHeaders } : {}), sdkworkUnwrapKind: 'item' });
   }
 }
 
