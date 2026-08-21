@@ -1,0 +1,5 @@
+specVersion = 1
+kind = "sdkwork.webserver.server"
+id = "invoice"
+enabled = false
+description = "sdkwork-invoice webserver placeholder (align-application-deploy-layout)"

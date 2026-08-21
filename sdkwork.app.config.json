@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 3,
+  "kind": "sdkwork.app",
+  "app": {
+    "key": "sdkwork-invoice",
+    "name": "Invoice",
+    "displayName": "SDKWork Invoice",
+    "description": "SDKWork Invoice application (bootstrap deploy layout).",
+    "appType": "SDK"
+  },
+  "backend": {
+    "primaryLanguage": "rust",
+    "framework": "axum",
+    "appId": "sdkwork-invoice",
+    "serviceId": "sdkwork-invoice",
+    "owner": "sdkwork-invoice",
+    "domain": "invoice"
+  },
+  "runtime": {
+    "family": "server",
+    "framework": "rust-axum",
+    "supportedDeploymentProfiles": [
+      "standalone",
+      "cloud"
+    ],
+    "defaultDeploymentProfile": "standalone"
+  }
+}
