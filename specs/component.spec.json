@@ -6,5 +6,8 @@
     "domain": "commerce",
     "capability": "invoice",
     "root": "sdkwork-invoice"
+  },
+  "contracts": {
+    "sdkDependencies": []
   }
 }

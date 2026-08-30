@@ -34,7 +34,7 @@
           "invoices"
         ],
         "summary": "List invoices owned by the current user.",
-        "operationId": "invoices.list",
+        "operationId": "list",
         "parameters": [
           {
             "name": "status",
@@ -161,7 +161,7 @@
           "invoices"
         ],
         "summary": "Create an invoice draft.",
-        "operationId": "invoices.create",
+        "operationId": "create",
         "parameters": [
           {
             "name": "Idempotency-Key",
@@ -170,7 +170,7 @@
             "schema": {
               "type": "string",
               "minLength": 1,
-              "maxLength": 200
+              "maxLength": 128
             }
           },
           {
@@ -292,7 +292,8 @@
               }
             }
           }
-        }
+        },
+        "x-sdkwork-idempotent": true
       }
     },
     "/app/v3/api/invoices/mine": {
@@ -301,7 +302,7 @@
           "invoices"
         ],
         "summary": "List invoices owned by the current user.",
-        "operationId": "invoices.mine.list",
+        "operationId": "mine.list",
         "parameters": [
           {
             "name": "status",
@@ -430,7 +431,7 @@
           "invoices"
         ],
         "summary": "Retrieve aggregate invoice statistics for the current user.",
-        "operationId": "invoices.statistics.retrieve",
+        "operationId": "statistics.retrieve",
         "parameters": [],
         "responses": {
           "200": {
@@ -529,7 +530,7 @@
           "invoices"
         ],
         "summary": "Retrieve an invoice owned by the current user.",
-        "operationId": "invoices.retrieve",
+        "operationId": "retrieve",
         "parameters": [
           {
             "name": "invoiceId",
@@ -636,7 +637,7 @@
           "invoices"
         ],
         "summary": "Update an invoice draft.",
-        "operationId": "invoices.update",
+        "operationId": "update",
         "parameters": [
           {
             "name": "invoiceId",
@@ -654,7 +655,7 @@
             "schema": {
               "type": "string",
               "minLength": 1,
-              "maxLength": 200
+              "maxLength": 128
             }
           },
           {
@@ -776,7 +777,8 @@
               }
             }
           }
-        }
+        },
+        "x-sdkwork-idempotent": true
       }
     },
     "/app/v3/api/invoices/{invoiceId}/items": {
@@ -785,7 +787,7 @@
           "invoices"
         ],
         "summary": "List items for an invoice owned by the current user.",
-        "operationId": "invoices.items.list",
+        "operationId": "items.list",
         "parameters": [
           {
             "name": "invoiceId",
@@ -915,7 +917,7 @@
           "invoices"
         ],
         "summary": "Submit an invoice draft.",
-        "operationId": "invoices.submissions.create",
+        "operationId": "submissions.create",
         "parameters": [
           {
             "name": "invoiceId",
@@ -933,7 +935,7 @@
             "schema": {
               "type": "string",
               "minLength": 1,
-              "maxLength": 200
+              "maxLength": 128
             }
           },
           {
@@ -1045,7 +1047,8 @@
         "x-sdkwork-source-route-crate": "sdkwork-routes-invoice-app-api",
         "x-sdkwork-source": "sdkwork-routes-invoice-app-api:/app/v3/api/invoices/{invoiceId}/submissions",
         "x-sdkwork-auth-mode": "dual-token",
-        "x-sdkwork-permission": "commerce.invoices.manage"
+        "x-sdkwork-permission": "commerce.invoices.manage",
+        "x-sdkwork-idempotent": true
       }
     },
     "/app/v3/api/invoices/{invoiceId}/cancellations": {
@@ -1054,7 +1057,7 @@
           "invoices"
         ],
         "summary": "Cancel an invoice.",
-        "operationId": "invoices.cancellations.create",
+        "operationId": "cancellations.create",
         "parameters": [
           {
             "name": "invoiceId",
@@ -1072,7 +1075,7 @@
             "schema": {
               "type": "string",
               "minLength": 1,
-              "maxLength": 200
+              "maxLength": 128
             }
           },
           {
@@ -1194,7 +1197,8 @@
               }
             }
           }
-        }
+        },
+        "x-sdkwork-idempotent": true
       }
     }
   },
@@ -1490,20 +1494,24 @@
         ],
         "properties": {
           "totalInvoices": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "format": "int64",
+            "x-sdkwork-int64-string": true
           },
           "pendingInvoices": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "format": "int64",
+            "x-sdkwork-int64-string": true
           },
           "issuedInvoices": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "format": "int64",
+            "x-sdkwork-int64-string": true
           },
           "cancelledInvoices": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "format": "int64",
+            "x-sdkwork-int64-string": true
           }
         },
         "additionalProperties": false
