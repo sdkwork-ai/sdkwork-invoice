@@ -153,8 +153,7 @@
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source-route-crate": "sdkwork-routes-invoice-app-api",
         "x-sdkwork-source": "sdkwork-routes-invoice-app-api:/app/v3/api/invoices",
-        "x-sdkwork-auth-mode": "dual-token",
-        "x-sdkwork-permission": "commerce.invoices.read"
+        "x-sdkwork-auth-mode": "dual-token"
       },
       "post": {
         "tags": [
@@ -282,7 +281,6 @@
         "x-sdkwork-source-route-crate": "sdkwork-routes-invoice-app-api",
         "x-sdkwork-source": "sdkwork-routes-invoice-app-api:/app/v3/api/invoices",
         "x-sdkwork-auth-mode": "dual-token",
-        "x-sdkwork-permission": "commerce.invoices.manage",
         "requestBody": {
           "required": true,
           "content": {
@@ -421,8 +419,7 @@
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source-route-crate": "sdkwork-routes-invoice-app-api",
         "x-sdkwork-source": "sdkwork-routes-invoice-app-api:/app/v3/api/invoices/mine",
-        "x-sdkwork-auth-mode": "dual-token",
-        "x-sdkwork-permission": "commerce.invoices.read"
+        "x-sdkwork-auth-mode": "dual-token"
       }
     },
     "/app/v3/api/invoices/statistics": {
@@ -520,8 +517,7 @@
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source-route-crate": "sdkwork-routes-invoice-app-api",
         "x-sdkwork-source": "sdkwork-routes-invoice-app-api:/app/v3/api/invoices/statistics",
-        "x-sdkwork-auth-mode": "dual-token",
-        "x-sdkwork-permission": "commerce.invoices.read"
+        "x-sdkwork-auth-mode": "dual-token"
       }
     },
     "/app/v3/api/invoices/{invoiceId}": {
@@ -629,8 +625,7 @@
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source-route-crate": "sdkwork-routes-invoice-app-api",
         "x-sdkwork-source": "sdkwork-routes-invoice-app-api:/app/v3/api/invoices/{invoiceId}",
-        "x-sdkwork-auth-mode": "dual-token",
-        "x-sdkwork-permission": "commerce.invoices.read"
+        "x-sdkwork-auth-mode": "dual-token"
       },
       "patch": {
         "tags": [
@@ -767,7 +762,6 @@
         "x-sdkwork-source-route-crate": "sdkwork-routes-invoice-app-api",
         "x-sdkwork-source": "sdkwork-routes-invoice-app-api:/app/v3/api/invoices/{invoiceId}",
         "x-sdkwork-auth-mode": "dual-token",
-        "x-sdkwork-permission": "commerce.invoices.manage",
         "requestBody": {
           "required": true,
           "content": {
@@ -907,8 +901,7 @@
         "x-sdkwork-server-request-id": true,
         "x-sdkwork-source-route-crate": "sdkwork-routes-invoice-app-api",
         "x-sdkwork-source": "sdkwork-routes-invoice-app-api:/app/v3/api/invoices/{invoiceId}/items",
-        "x-sdkwork-auth-mode": "dual-token",
-        "x-sdkwork-permission": "commerce.invoices.read"
+        "x-sdkwork-auth-mode": "dual-token"
       }
     },
     "/app/v3/api/invoices/{invoiceId}/submissions": {
@@ -1047,7 +1040,6 @@
         "x-sdkwork-source-route-crate": "sdkwork-routes-invoice-app-api",
         "x-sdkwork-source": "sdkwork-routes-invoice-app-api:/app/v3/api/invoices/{invoiceId}/submissions",
         "x-sdkwork-auth-mode": "dual-token",
-        "x-sdkwork-permission": "commerce.invoices.manage",
         "x-sdkwork-idempotent": true
       }
     },
@@ -1187,7 +1179,6 @@
         "x-sdkwork-source-route-crate": "sdkwork-routes-invoice-app-api",
         "x-sdkwork-source": "sdkwork-routes-invoice-app-api:/app/v3/api/invoices/{invoiceId}/cancellations",
         "x-sdkwork-auth-mode": "dual-token",
-        "x-sdkwork-permission": "commerce.invoices.manage",
         "requestBody": {
           "required": false,
           "content": {
