@@ -1,10 +1,14 @@
 [package]
+rust-version.workspace = true
 name = "sdkwork-api-invoice-assembly"
 edition.workspace = true
 license.workspace = true
 version.workspace = true
 description = "Generated API assembly for sdkwork-invoice application HTTP plane."
 
+
+[lints]
+workspace = true
 [lib]
 name = "sdkwork_api_invoice_assembly"
 path = "src/lib.rs"
